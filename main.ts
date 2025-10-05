@@ -263,14 +263,14 @@ function setBrightness(brightness: number) {
         255: 8,
     };
 
-    let buttonNr = buttonBrightness[lightsBrightnessLevel]
+    let buttonNr = buttonBrightness[brightness]
 
     if (lightsBrightnessLevel == brightness) {
         lightsBrightnessLevel = setLeds(0)
         bluetooth.uartWriteLine(`vc;b;${buttonNr};1;0;`)
     } else {
         if (lightsBrightnessLevel) {
-            bluetooth.uartWriteLine(`vc;b;${buttonNr};1;0;`)
+            bluetooth.uartWriteLine(`vc;b;${buttonBrightness[lightsBrightnessLevel]};1;0;`)
         }
         lightsBrightnessLevel = setLeds(brightness)
         bluetooth.uartWriteLine(`vc;b;${buttonNr};1;1;`)
