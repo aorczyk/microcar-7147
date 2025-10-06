@@ -39,7 +39,12 @@ basic.forever(function () {
         delete latestCommands[commandName];
 
         if (commandName == "-v") {
-            bluetooth.uartWriteLine('vc;import_start;')
+            bluetooth.uartWriteLine('vc;hasSettings;1;')
+            bluetooth.uartWriteLine('getProp;mc_a;')
+
+            wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S3, liftAngle)
+        } else if (commandName == "getSettings") {
+            bluetooth.uartWriteLine('vc;loader;1;')
             bluetooth.uartWriteLine('vc;init;')
             bluetooth.uartWriteLine('vc;sl;1;-100;100;5;1;0;1;;')
             bluetooth.uartWriteLine(`vc;sr;1;-${maxSteeringAngle};${maxSteeringAngle};10;0;0;0;;`)
@@ -68,22 +73,17 @@ basic.forever(function () {
             bluetooth.uartWriteLine('vc;m;micro:car;')
             bluetooth.uartWriteLine('setProp;mc_a;0')
             bluetooth.uartWriteLine('getProp;mc_a;')
-            bluetooth.uartWriteLine('vc;b;2;1;1;<i class="fa-solid fa-lock-open"></i>;')
 
             stopAll()
 
-            // if (!alarmActive) {
-            //     bluetooth.uartWriteLine('vc;b;2;1;1;<i class="fa-solid fa-lock-open"></i>;')
-            // } else {
-            //     bluetooth.uartWriteLine('vc;b;2;1;4;<i class="fa-solid fa-lock"></i>;')
-            // }
+            if (!alarmActive) {
+                bluetooth.uartWriteLine('vc;b;2;1;1;<i class="fa-solid fa-lock-open"></i>;')
+            } else {
+                bluetooth.uartWriteLine('vc;b;2;1;4;<i class="fa-solid fa-lock"></i>;')
+            }
 
-            bluetooth.uartWriteLine('vc;import_end;')
-
-            bluetooth.uartWriteLine('getProp;mc_a;')
-
-            wuKong.setServoAngle(wuKong.ServoTypeList._360, wuKong.ServoList.S3, liftAngle)
-        } else if (commandName == "STOP" || commandName == "PLAY_DONE") {
+            bluetooth.uartWriteLine('vc;loader;1;')
+        } else if (commandName == "playStop" || commandName == "playDone") {
             stopAll()
         } else if (commandName == "2") {
             alarmActive = !alarmActive
