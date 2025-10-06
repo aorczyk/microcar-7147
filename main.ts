@@ -65,16 +65,19 @@ basic.forever(function () {
             bluetooth.uartWriteLine('vc;show;sl,sr,jr,al,ar,br,bl;')
             bluetooth.uartWriteLine('vc;il;1;')
             bluetooth.uartWriteLine('vc;ir;1;')
+            bluetooth.uartWriteLine('vc;m;micro:car;')
+            bluetooth.uartWriteLine('setProp;mc_a;0')
+            bluetooth.uartWriteLine('getProp;mc_a;')
+            bluetooth.uartWriteLine('vc;b;2;1;1;<i class="fa-solid fa-lock-open"></i>;')
 
             stopAll()
 
-            if (!alarmActive) {
-                bluetooth.uartWriteLine('vc;b;2;1;1;<i class="fa-solid fa-lock-open"></i>;')
-            } else {
-                bluetooth.uartWriteLine('vc;b;2;1;4;<i class="fa-solid fa-lock"></i>;')
-            }
+            // if (!alarmActive) {
+            //     bluetooth.uartWriteLine('vc;b;2;1;1;<i class="fa-solid fa-lock-open"></i>;')
+            // } else {
+            //     bluetooth.uartWriteLine('vc;b;2;1;4;<i class="fa-solid fa-lock"></i>;')
+            // }
 
-            bluetooth.uartWriteLine('vc;m;micro:car;')
             bluetooth.uartWriteLine('vc;import_end;')
 
             bluetooth.uartWriteLine('getProp;mc_a;')
@@ -135,6 +138,8 @@ basic.forever(function () {
             liftPressed = false
         } else if (commandName == "prop;mc_a;1") {
             activateAlarm()
+        } else if (commandName == "prop;mc_a;0") {
+            alarmActive = false;
         }
     }
 
